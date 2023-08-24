@@ -2,10 +2,14 @@ using mountains.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Add services to the container.
 builder.Services.Configure<MountainsDatabaseSettings>
 (builder.Configuration.GetSection("MountainsDatabaseSettings"));
 
-// Add services to the container.
+
+builder.Services.AddSingleton<MountainsService>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
