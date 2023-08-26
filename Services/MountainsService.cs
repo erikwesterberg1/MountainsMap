@@ -9,6 +9,7 @@ public class MountainsService {
 
     public MountainsService(IOptions<MountainsDatabaseSettings> settings)
     {
+        string c = settings.Value.ConnectionString;
         //create client with connectionstring
         var mongoClient = new MongoClient(settings.Value.ConnectionString);
         // get database on name
@@ -17,6 +18,18 @@ public class MountainsService {
         _mountainsCollection = mongoDatabase.GetCollection<Mountain>(settings.Value.MountainsCollectionName);
     }
 
-    private async Task<List<Mountain>> GetAsync() => 
-        await _mountainsCollection.Find(_ => true).ToListAsync();
+    public async Task<List<Mountain>> GetAsync() => await _mountainsCollection.Find(_ => true).ToListAsync();
+
+    public async Task<Mountain?> GetAsync(string id) => await _mountainsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+    public async Task<List<Mountain>> GetAsync(double metres) => await _mountainsCollection.Find(x => x.Metres > metres).ToListAsync();
+
+    public async Task<List<Mountain>> GetByCountryAsync(string country) => await _mountainsCollection.Find(x => x.Location.Contains(country) == true).ToListAsync();
+
+    public async Task CreateAsync(Mountain newMountain) => await _mountainsCollection.InsertOneAsync(newMountain);
+
+    public async Task UpdateAsync(string id, Mountain updatedMountain) => await _mountainsCollection.ReplaceOneAsync(x => x.Id == id, updatedMountain);
+
+    public async Task DeleteAsync(string id) => await _mountainsCollection.DeleteOneAsync(x => x.Id == id);
+
 }

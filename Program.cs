@@ -4,9 +4,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-builder.Services.Configure<MountainsDatabaseSettings>
-(builder.Configuration.GetSection("MountainsDatabaseSettings"));
+builder.Services.Configure<MountainsDatabaseSettings>(builder.Configuration.GetSection("MountainsDatabase"));
 
+/*It is recommended to store a MongoClient instance in a global place, 
+either as a static variable or in an IoC container with a singleton lifetime. 
+https://mongodb.github.io/mongo-csharp-driver/2.14/reference/driver/connecting/#re-use */
 
 builder.Services.AddSingleton<MountainsService>();
 
