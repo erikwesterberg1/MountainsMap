@@ -3,11 +3,16 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using mountains.Models;
 
-public class MountainsService {
+public class MountainsService: DbConnService {
 
     private readonly IMongoCollection<Mountain> _mountainsCollection;
 
-    public MountainsService(IOptions<MountainsDatabaseSettings> settings)
+    public MountainsService(IOptions<MountainsDatabaseSettings> settings) : base(settings)
+    {
+        _mountainsCollection = database.GetCollection<Mountain>(settings.Value.MountainsCollectionName);
+    }
+
+    /*public MountainsService(IOptions<MountainsDatabaseSettings> settings)
     {
         //starta om dator och se om det fungerar
         string? conn = Environment.GetEnvironmentVariable("MOUNTAINSDB_CONNECTIONSTRING");
@@ -17,7 +22,7 @@ public class MountainsService {
         var mongoDatabase = mongoClient.GetDatabase(settings.Value.DatabaseName);
         //get collection
         _mountainsCollection = mongoDatabase.GetCollection<Mountain>(settings.Value.MountainsCollectionName);
-    }
+    }*/
 
     public async Task<List<Mountain>> GetAsync() => await _mountainsCollection.Find(_ => true).ToListAsync();
 

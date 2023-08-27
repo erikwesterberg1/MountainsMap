@@ -11,6 +11,7 @@ either as a static variable or in an IoC container with a singleton lifetime.
 https://mongodb.github.io/mongo-csharp-driver/2.14/reference/driver/connecting/#re-use */
 
 builder.Services.AddSingleton<MountainsService>();
+builder.Services.AddSingleton<ClimbersService>();
 
 
 builder.Services.AddControllers();

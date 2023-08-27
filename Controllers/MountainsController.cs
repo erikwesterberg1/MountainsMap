@@ -11,7 +11,9 @@ public class MountainsController: ControllerBase {
     
     private readonly MountainsService _mountainsService;
 
-    public MountainsController(MountainsService mountainsService) => _mountainsService = mountainsService;
+    public MountainsController(MountainsService mountainsService) {
+        _mountainsService = mountainsService;
+    } 
 
     //Get All mountains
     [HttpGet]
@@ -22,7 +24,6 @@ public class MountainsController: ControllerBase {
         }
         catch (Exception ex)
         {
-            
             throw;
         }
         
@@ -65,11 +66,20 @@ public class MountainsController: ControllerBase {
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostMountain(Mountain newMountain){
+    public async Task<IActionResult> PostMountain([FromBody] Mountain newMountain){
         
-        await _mountainsService.CreateAsync(newMountain);
+        try
+        {
+            await _mountainsService.CreateAsync(newMountain);
+            return CreatedAtAction(nameof(GetMountain), new {id = newMountain.Id}, newMountain);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest();
+            throw;
+        }
         // 201 created
-        return CreatedAtAction(nameof(GetMountain), new {id = newMountain.Id}, newMountain);
+        
     }
 
     [HttpPut("{id:length(24)}")]
