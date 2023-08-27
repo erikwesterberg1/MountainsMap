@@ -37,5 +37,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
+  },
+  "env": {
+    "MOUNTAINSDB_CONNECTIONSTRING": "mongodb+srv://erikwesterberg:CvuoQQ1ibM9GfwEL@cluster0.n5nrfyb.mongodb.net/"
   }
 }

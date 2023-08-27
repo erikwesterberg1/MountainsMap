@@ -1,5 +1,6 @@
 
 using System.Runtime.CompilerServices;
+using Amazon.Runtime.Internal.Util;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
 using mountains.Models;
@@ -19,7 +20,7 @@ public class MountainsController: ControllerBase {
         {
             return await _mountainsService.GetAsync();
         }
-        catch (System.Exception)
+        catch (Exception ex)
         {
             
             throw;

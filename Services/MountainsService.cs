@@ -9,9 +9,10 @@ public class MountainsService {
 
     public MountainsService(IOptions<MountainsDatabaseSettings> settings)
     {
-        string c = settings.Value.ConnectionString;
+        //starta om dator och se om det fungerar
+        string? conn = Environment.GetEnvironmentVariable("MOUNTAINSDB_CONNECTIONSTRING");
         //create client with connectionstring
-        var mongoClient = new MongoClient(settings.Value.ConnectionString);
+        var mongoClient = new MongoClient(conn);
         // get database on name
         var mongoDatabase = mongoClient.GetDatabase(settings.Value.DatabaseName);
         //get collection
